@@ -47,6 +47,7 @@ public class MessageController {
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 	
+	
 	/**
 	 * 发送新信息
 	 */
