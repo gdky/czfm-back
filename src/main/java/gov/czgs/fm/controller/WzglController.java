@@ -28,8 +28,8 @@ public class WzglController {
 	private WzglService wzglService;
 
 	@RequestMapping(value = "/wzglmenu", method = RequestMethod.GET)
-	public ResponseEntity<List<Map<String, Object>>> getAsideMenu() {
-		List<Map<String, Object>> ls = wzglService.getAsideMenu();
+	public ResponseEntity<List<Map<String, Object>>> getAsideMenu(@RequestParam(value = "lx", required = true) String lx) {
+		List<Map<String, Object>> ls = wzglService.getAsideMenu(lx);
 		return new ResponseEntity<>(ls, HttpStatus.OK);
 	}
 
@@ -50,9 +50,15 @@ public class WzglController {
 
 	@RequestMapping(value = "/wzglmenu/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<List<Map<String, Object>>> removeMenu(
-			@PathVariable("id") String id) {
+			@PathVariable("id") String id,@RequestParam(value = "lx", required = true) String lx) {
 		wzglService.removeMenu(id);
-		List<Map<String, Object>> ls = wzglService.getAsideMenu();
+		List<Map<String, Object>> ls = wzglService.getAsideMenu(lx);
 		return new ResponseEntity<>(ls, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/wzinfo", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getWzinfo(@RequestParam Map<String,Object> param) {
+		Map<String, Object> obj = wzglService.getWzinfo(param);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 }

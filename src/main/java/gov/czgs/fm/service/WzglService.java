@@ -18,9 +18,9 @@ public class WzglService {
 	@Resource
 	private WzglDao wzglDao;
 	
-	public List<Map<String, Object>> getAsideMenu() {
+	public List<Map<String, Object>> getAsideMenu( String lx) {
 		// TODO Auto-generated method stub
-		return wzglDao.getAsideMenu();
+		return wzglDao.getAsideMenu(lx);
 	}
 
 	public Map<String, Object> newMenu(Map<String, Object> para) {
@@ -39,6 +39,11 @@ public class WzglService {
 	public void updateMenu(Map<String, Object> para) {
 		// TODO Auto-generated method stub
 		wzglDao.updateMenu(para);
+	}
+
+	public Map<String, Object> getWzinfo(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return wzglDao.getWzinfo(param);
 	}
 
 }
