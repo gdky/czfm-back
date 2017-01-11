@@ -41,9 +41,14 @@ public class WzglService {
 		wzglDao.updateMenu(para);
 	}
 
-	public Map<String, Object> getWzinfo(Map<String, Object> param) {
+	public Map<String, Object> getWzinfo(Map<String, Object> para) {
 		// TODO Auto-generated method stub
-		return wzglDao.getWzinfo(param);
+		return wzglDao.getWzinfo(para);
+	}
+
+	public Map<String, Object> newWz(Map<String, Object> para) {
+		// TODO Auto-generated method stub
+		return  wzglDao.newWz(para);
 	}
 
 }

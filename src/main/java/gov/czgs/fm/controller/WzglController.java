@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,16 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gdky.restfull.configuration.Config;
-import com.gdky.restfull.entity.AsideMenu;
 import com.gdky.restfull.entity.ResponseMessage;
 import com.gdky.restfull.entity.User;
+import com.gdky.restfull.service.AccountService;
 
 @RestController
 @RequestMapping(value = Config.URL_PROJECT)
 public class WzglController {
 	@Resource
 	private WzglService wzglService;
-
+	
 	@RequestMapping(value = "/wzglmenu", method = RequestMethod.GET)
 	public ResponseEntity<List<Map<String, Object>>> getAsideMenu(@RequestParam(value = "lx", required = true) String lx) {
 		List<Map<String, Object>> ls = wzglService.getAsideMenu(lx);
@@ -57,8 +59,15 @@ public class WzglController {
 	}
 	
 	@RequestMapping(value = "/wzinfo", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getWzinfo(@RequestParam Map<String,Object> param) {
-		Map<String, Object> obj = wzglService.getWzinfo(param);
+	public ResponseEntity<Map<String, Object>> getWzinfo(@RequestParam Map<String,Object> para) {
+		Map<String, Object> obj = wzglService.getWzinfo(para);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/newwz", method = RequestMethod.POST)
+	public ResponseEntity<?> newWz(
+			@RequestBody Map<String,Object> para) {
+		Map<String, Object> obj = wzglService.newWz(para);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 }
