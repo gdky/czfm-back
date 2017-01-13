@@ -51,4 +51,21 @@ public class WzglService {
 		return  wzglDao.newWz(para);
 	}
 
+	public Map<String, Object> getWz(String id) {
+		// TODO Auto-generated method stub
+		return wzglDao.getWz(id);
+	}
+
+	public Map<String, Object> updateWz(String id, Map<String, Object> para) {
+		// TODO Auto-generated method stub
+		return wzglDao.updateWz(id,para);
+	}
+
+	public void deleteWz(List<String> para) {
+		// TODO Auto-generated method stub
+		for(String mp :para){
+			wzglDao.deleteWz(mp);
+		}
+	}
+
 }

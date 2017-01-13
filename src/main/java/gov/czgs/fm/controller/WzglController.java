@@ -70,4 +70,24 @@ public class WzglController {
 		Map<String, Object> obj = wzglService.newWz(para);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/getwz/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getWz(@PathVariable("id") String id) {
+		Map<String, Object> obj = wzglService.getWz(id);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/editwz/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateWz(@PathVariable("id") String id,
+			@RequestBody Map<String, Object> para) {
+		Map<String, Object> obj = wzglService.updateWz(id,para);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/deletewz", method = RequestMethod.DELETE)
+	public ResponseEntity<List<Map<String, Object>>> deleteWz(@RequestBody List<String> para) {
+		wzglService.deleteWz(para);
+		return new ResponseEntity<>( HttpStatus.OK);
+	}
+	
 }
