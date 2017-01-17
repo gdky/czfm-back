@@ -68,4 +68,9 @@ public class WzglService {
 		}
 	}
 
+	public List<Map<String, Object>> getAudio() {
+		// TODO Auto-generated method stub
+		return wzglDao.getAudio();
+	}
+
 }

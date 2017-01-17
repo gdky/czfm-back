@@ -58,18 +58,18 @@ public class WzglDao extends BaseJdbcDao {
 	public Map<String, Object> getWzinfo(Map<String, Object> para) {
 		// TODO Auto-generated method stub
 		String lmid = (String) para.get("lmid");
-			
-			String sql = "select a.*,DATE_FORMAT(a.create_time,'%Y-%d-%m %T')  createtime ,b.names sender from fm_wz_nr a ,fw_users b where a.senderid =b.id and a.lmid = ? ";
-			List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(sql
-					.toString(),new Object[]{lmid});
-			Map<String, Object> obj = new HashMap<String, Object>();
-			obj.put("data", ls);
-			obj.put("total", 1);
-			obj.put("pagesize", 1);
-			obj.put("current", 1);
 
-			return obj;
-		
+		String sql = "select a.*,DATE_FORMAT(a.create_time,'%Y-%d-%m %T')  createtime ,b.names sender from fm_wz_nr a ,fw_users b where a.senderid =b.id and a.lmid = ? ";
+		List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(
+				sql.toString(), new Object[] { lmid });
+		Map<String, Object> obj = new HashMap<String, Object>();
+		obj.put("data", ls);
+		obj.put("total", 1);
+		obj.put("pagesize", 1);
+		obj.put("current", 1);
+
+		return obj;
+
 	}
 
 	public Map<String, Object> newWz(Map<String, Object> para) {
@@ -88,10 +88,11 @@ public class WzglDao extends BaseJdbcDao {
 	public Map<String, Object> getWz(String id) {
 		// TODO Auto-generated method stub
 		String sql = "select * from fm_wz_nr where id = ? ";
-		List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(sql,new Object[]{id});
-		if(ls.size()>0){
+		List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(sql,
+				new Object[] { id });
+		if (ls.size() > 0) {
 			return ls.get(0);
-		}else{
+		} else {
 			return null;
 		}
 	}
@@ -102,8 +103,8 @@ public class WzglDao extends BaseJdbcDao {
 		int lmid = (Integer) para.get("lmid");
 		String title = (String) para.get("title");
 		String content = (String) para.get("content");
-		String sql ="update fm_wz_nr set content = ? ,title = ?,senderid = ? where id = ?";
-		Object[] arg = new Object[] {  content, title, user.getId(),id };
+		String sql = "update fm_wz_nr set content = ? ,title = ?,senderid = ? where id = ?";
+		Object[] arg = new Object[] { content, title, user.getId(), id };
 
 		this.jdbcTemplate.update(sql, arg);
 		return null;
@@ -112,7 +113,13 @@ public class WzglDao extends BaseJdbcDao {
 	public void deleteWz(String mp) {
 		// TODO Auto-generated method stub
 		String sql = "delete from fm_wz_nr where id = ? ";
-		this.jdbcTemplate.update(sql, new Object[]{mp});
+		this.jdbcTemplate.update(sql, new Object[] { mp });
+	}
+
+	public List<Map<String, Object>> getAudio() {
+		// TODO Auto-generated method stub
+		String sql = "select * from fm_recgl ";
+		return this.jdbcTemplate.queryForList(sql.toString());
 	}
 
 }
