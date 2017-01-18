@@ -58,15 +58,18 @@ public class WzglDao extends BaseJdbcDao {
 	public Map<String, Object> getWzinfo(Map<String, Object> para) {
 		// TODO Auto-generated method stub
 		String lmid = (String) para.get("lmid");
-
-		String sql = "select a.*,DATE_FORMAT(a.create_time,'%Y-%d-%m %T')  createtime ,b.names sender from fm_wz_nr a ,fw_users b where a.senderid =b.id and a.lmid = ? ";
+		String page = (String) para.get("page");
+		String pagesize = (String) para.get("pagesize");
+		String sql = "select a.*,DATE_FORMAT(a.create_time,'%Y-%d-%m %T')  createtime ,b.names sender from fm_wz_nr a ,fw_users b where a.senderid =b.id and a.lmid = ? order by create_time  limit ?,? ";
 		List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(
-				sql.toString(), new Object[] { lmid });
+				sql, new Object[] { lmid,((Integer.parseInt(page)-1)*Integer.parseInt(pagesize)),Integer.parseInt(pagesize) });
+		sql = "select count(*) rs from fm_wz_nr a ,fw_users b where a.senderid =b.id and a.lmid = ? ";
+		int total = this.jdbcTemplate.queryForObject(sql, new Object[]{lmid},Integer.class);
 		Map<String, Object> obj = new HashMap<String, Object>();
 		obj.put("data", ls);
-		obj.put("total", 1);
-		obj.put("pagesize", 1);
-		obj.put("current", 1);
+		obj.put("total", total);
+		obj.put("pagesize", pagesize);
+		obj.put("current", page);
 
 		return obj;
 
