@@ -81,8 +81,9 @@ public class WzglDao extends BaseJdbcDao {
 		int lmid = (Integer) para.get("lmid");
 		String title = (String) para.get("title");
 		String content = (String) para.get("content");
-		String sql = " insert into fm_wz_nr(lmid,content,title,senderid,create_time) values(?,?,?,?,now()) ";
-		Object[] arg = new Object[] { lmid, content, title, user.getId() };
+		int audioid = (Integer) para.get("audioid");
+		String sql = " insert into fm_wz_nr(lmid,content,title,senderid,recgl_id,create_time,state) values(?,?,?,?,?,now(),1) ";
+		Object[] arg = new Object[] { lmid, content, title, user.getId(),audioid };
 
 		this.jdbcTemplate.update(sql, arg);
 		return null;
@@ -106,8 +107,9 @@ public class WzglDao extends BaseJdbcDao {
 		int lmid = (Integer) para.get("lmid");
 		String title = (String) para.get("title");
 		String content = (String) para.get("content");
-		String sql = "update fm_wz_nr set content = ? ,title = ?,senderid = ? where id = ?";
-		Object[] arg = new Object[] { content, title, user.getId(), id };
+		int audioid = (Integer) para.get("audioid");
+		String sql = "update fm_wz_nr set content = ? ,title = ?,senderid = ?,recgl_id = ? where id = ?";
+		Object[] arg = new Object[] { content, title, user.getId(), audioid,id };
 
 		this.jdbcTemplate.update(sql, arg);
 		return null;

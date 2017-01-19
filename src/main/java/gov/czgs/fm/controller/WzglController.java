@@ -1,7 +1,9 @@
 package gov.czgs.fm.controller;
 
+import gov.czgs.fm.com.baidu.speech.serviceapi.HttpUtil;
 import gov.czgs.fm.service.WzglService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +24,7 @@ import com.gdky.restfull.entity.ResponseMessage;
 @RestController
 @RequestMapping(value = Config.URL_PROJECT)
 public class WzglController {
+    
 	@Resource
 	private WzglService wzglService;
 	
@@ -92,4 +95,9 @@ public class WzglController {
 		return new ResponseEntity<>(ls, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public ResponseEntity<?> test() {
+		byte[] test = HttpUtil.http();
+		return new ResponseEntity<>(test, HttpStatus.OK);
+	}
 }

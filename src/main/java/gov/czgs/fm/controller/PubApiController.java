@@ -1,7 +1,9 @@
 package gov.czgs.fm.controller;
 
+import gov.czgs.fm.com.baidu.speech.serviceapi.HttpUtil;
 import gov.czgs.fm.service.PubApiService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,5 +52,11 @@ public class PubApiController {
 	public ResponseEntity<?> getWzByLm(@PathVariable("lmid") String lmid) {
 		List<Map<String, Object>> obj = pubApiService.getWzByLm(lmid);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public ResponseEntity<?> test() {
+		byte[] test = HttpUtil.http();
+		return new ResponseEntity<>(test, HttpStatus.OK);
 	}
 }
