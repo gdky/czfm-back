@@ -111,7 +111,10 @@ public class Condition {
 			} else if (FUZZY_LEFT.equals(type)) {
 				sb.append(" AND ").append(colName).append(" like  ? ");
 				this.params.add("%"+ param );
-			} else if (BETWEEN.equals(type)){
+			}else if (FUZZY_RIGHT.equals(type)) {
+				sb.append(" AND ").append(colName).append(" like  ? ");
+				this.params.add(param + "%" );
+			}  else if (BETWEEN.equals(type)){
 				sb.append(" AND ").append(colName).append(" between ? and ? ");
 				this.params.add(((ArrayList)param).get(0));
 				this.params.add(((ArrayList)param).get(1));
