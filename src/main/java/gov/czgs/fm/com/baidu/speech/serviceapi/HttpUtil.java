@@ -22,10 +22,10 @@ public class HttpUtil {
     private static final String cuid = "test";
 
     
-	public static byte[] http() {
+	public static byte[] http(String wz) {
 		String url = serverURL+"?";
 		Map<String,String> params = new HashMap<String,String>();
-        params.put("tex", "测试下");
+        params.put("tex", wz);
         params.put("lan", "zh");
         params.put("tok", token);
         params.put("cuid", cuid);
@@ -78,7 +78,7 @@ public class HttpUtil {
 			 ByteArrayOutputStream swapStream = new ByteArrayOutputStream();  
 		        byte[] buff = new byte[100];  
 		        int rc = 0;  
-		        while ((rc = is.read(buff, 0, 100)) > 0) {  
+		        while ((rc = is.read(buff, 0, 100)) > -1) {  
 		            swapStream.write(buff, 0, rc);  
 		        }  
 		        in2b = swapStream.toByteArray();  
