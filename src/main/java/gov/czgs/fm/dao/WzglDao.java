@@ -82,8 +82,9 @@ public class WzglDao extends BaseJdbcDao {
 		String title = (String) para.get("title");
 		String content = (String) para.get("content");
 		int audioid = (Integer) para.get("audioid");
-		String sql = " insert into fm_wz_nr(lmid,content,title,senderid,recgl_id,create_time,state) values(?,?,?,?,?,now(),1) ";
-		Object[] arg = new Object[] { lmid, content, title, user.getId(),audioid };
+		String attachment = (String)para.get("uploadUrl");
+		String sql = " insert into fm_wz_nr(lmid,content,title,senderid,recgl_id,create_time,state,attachment) values(?,?,?,?,?,now(),'0',?) ";
+		Object[] arg = new Object[] { lmid, content, title, user.getId(),audioid,attachment };
 
 		this.jdbcTemplate.update(sql, arg);
 		return null;
@@ -125,6 +126,18 @@ public class WzglDao extends BaseJdbcDao {
 		// TODO Auto-generated method stub
 		String sql = "select * from fm_recgl ";
 		return this.jdbcTemplate.queryForList(sql.toString());
+	}
+	//当前状态 0：未发布 1：已发布 2：已作废
+	public void releaseWz(String mp) {
+		// TODO Auto-generated method stub
+		String sql = "update fm_wz_nr set state = '1'  where id = ? ";
+		this.jdbcTemplate.update(sql, new Object[] { mp });
+	}
+
+	public void cancelWz(String mp) {
+		// TODO Auto-generated method stub
+		String sql = "update fm_wz_nr set state = '2'  where id = ? ";
+		this.jdbcTemplate.update(sql, new Object[] { mp });
 	}
 
 }

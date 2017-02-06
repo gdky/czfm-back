@@ -68,6 +68,20 @@ public class WzglService {
 		}
 	}
 
+	public void releaseWz(List<String> para) {
+		// TODO Auto-generated method stub
+		for(String mp :para){
+			wzglDao.releaseWz(mp);
+		}
+	}
+
+	public void cancelWz(List<String> para) {
+		// TODO Auto-generated method stub
+		for(String mp :para){
+			wzglDao.cancelWz(mp);
+		}
+	}
+
 	public List<Map<String, Object>> getAudio() {
 		// TODO Auto-generated method stub
 		return wzglDao.getAudio();

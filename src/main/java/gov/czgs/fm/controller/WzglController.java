@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gdky.restfull.configuration.Config;
 import com.gdky.restfull.entity.ResponseMessage;
+import com.gdky.restfull.entity.User;
 
 @RestController
 @RequestMapping(value = Config.URL_PROJECT)
@@ -86,6 +88,18 @@ public class WzglController {
 	@RequestMapping(value = "/deletewz", method = RequestMethod.DELETE)
 	public ResponseEntity<List<Map<String, Object>>> deleteWz(@RequestBody List<String> para) {
 		wzglService.deleteWz(para);
+		return new ResponseEntity<>( HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/releasewz", method = RequestMethod.PUT)
+	public ResponseEntity<List<Map<String, Object>>> releaseWz(@RequestBody List<String> para) {
+		wzglService.releaseWz(para);
+		return new ResponseEntity<>( HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/cancelwz", method = RequestMethod.PUT)
+	public ResponseEntity<List<Map<String, Object>>> cancelWz(@RequestBody List<String> para) {
+		wzglService.cancelWz(para);
 		return new ResponseEntity<>( HttpStatus.OK);
 	}
 	
