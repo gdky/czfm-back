@@ -58,18 +58,21 @@ public class WzglDao extends BaseJdbcDao {
 	public Map<String, Object> getWzinfo(Map<String, Object> para) {
 		// TODO Auto-generated method stub
 		String lmid = (String) para.get("lmid");
-			
-			String sql = "select a.*,DATE_FORMAT(a.create_time,'%Y-%d-%m %T')  createtime ,b.names sender from fm_wz_nr a ,fw_users b where a.senderid =b.id and a.lmid = ? ";
-			List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(sql
-					.toString(),new Object[]{lmid});
-			Map<String, Object> obj = new HashMap<String, Object>();
-			obj.put("data", ls);
-			obj.put("total", 1);
-			obj.put("pagesize", 1);
-			obj.put("current", 1);
+		String page = (String) para.get("page");
+		String pagesize = (String) para.get("pagesize");
+		String sql = "select a.*,DATE_FORMAT(a.create_time,'%Y-%d-%m %T')  createtime ,b.names sender from fm_wz_nr a ,fw_users b where a.senderid =b.id and a.lmid = ? order by create_time  limit ?,? ";
+		List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(
+				sql, new Object[] { lmid,((Integer.parseInt(page)-1)*Integer.parseInt(pagesize)),Integer.parseInt(pagesize) });
+		sql = "select count(*) rs from fm_wz_nr a ,fw_users b where a.senderid =b.id and a.lmid = ? ";
+		int total = this.jdbcTemplate.queryForObject(sql, new Object[]{lmid},Integer.class);
+		Map<String, Object> obj = new HashMap<String, Object>();
+		obj.put("data", ls);
+		obj.put("total", total);
+		obj.put("pagesize", pagesize);
+		obj.put("current", page);
 
-			return obj;
-		
+		return obj;
+
 	}
 
 	public Map<String, Object> newWz(Map<String, Object> para) {
@@ -78,8 +81,10 @@ public class WzglDao extends BaseJdbcDao {
 		int lmid = (Integer) para.get("lmid");
 		String title = (String) para.get("title");
 		String content = (String) para.get("content");
-		String sql = " insert into fm_wz_nr(lmid,content,title,senderid,create_time) values(?,?,?,?,now()) ";
-		Object[] arg = new Object[] { lmid, content, title, user.getId() };
+		int audioid = (Integer) para.get("audioid");
+		String attachment = (String)para.get("uploadUrl");
+		String sql = " insert into fm_wz_nr(lmid,content,title,senderid,recgl_id,create_time,state,attachment) values(?,?,?,?,?,now(),'0',?) ";
+		Object[] arg = new Object[] { lmid, content, title, user.getId(),audioid,attachment };
 
 		this.jdbcTemplate.update(sql, arg);
 		return null;
@@ -88,10 +93,11 @@ public class WzglDao extends BaseJdbcDao {
 	public Map<String, Object> getWz(String id) {
 		// TODO Auto-generated method stub
 		String sql = "select * from fm_wz_nr where id = ? ";
-		List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(sql,new Object[]{id});
-		if(ls.size()>0){
+		List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(sql,
+				new Object[] { id });
+		if (ls.size() > 0) {
 			return ls.get(0);
-		}else{
+		} else {
 			return null;
 		}
 	}
@@ -102,8 +108,9 @@ public class WzglDao extends BaseJdbcDao {
 		int lmid = (Integer) para.get("lmid");
 		String title = (String) para.get("title");
 		String content = (String) para.get("content");
-		String sql ="update fm_wz_nr set content = ? ,title = ?,senderid = ? where id = ?";
-		Object[] arg = new Object[] {  content, title, user.getId(),id };
+		int audioid = (Integer) para.get("audioid");
+		String sql = "update fm_wz_nr set content = ? ,title = ?,senderid = ?,recgl_id = ? where id = ?";
+		Object[] arg = new Object[] { content, title, user.getId(), audioid,id };
 
 		this.jdbcTemplate.update(sql, arg);
 		return null;
@@ -112,7 +119,25 @@ public class WzglDao extends BaseJdbcDao {
 	public void deleteWz(String mp) {
 		// TODO Auto-generated method stub
 		String sql = "delete from fm_wz_nr where id = ? ";
-		this.jdbcTemplate.update(sql, new Object[]{mp});
+		this.jdbcTemplate.update(sql, new Object[] { mp });
+	}
+
+	public List<Map<String, Object>> getAudio() {
+		// TODO Auto-generated method stub
+		String sql = "select * from fm_recgl ";
+		return this.jdbcTemplate.queryForList(sql.toString());
+	}
+	//当前状态 0：未发布 1：已发布 2：已作废
+	public void releaseWz(String mp) {
+		// TODO Auto-generated method stub
+		String sql = "update fm_wz_nr set state = '1'  where id = ? ";
+		this.jdbcTemplate.update(sql, new Object[] { mp });
+	}
+
+	public void cancelWz(String mp) {
+		// TODO Auto-generated method stub
+		String sql = "update fm_wz_nr set state = '2'  where id = ? ";
+		this.jdbcTemplate.update(sql, new Object[] { mp });
 	}
 
 }

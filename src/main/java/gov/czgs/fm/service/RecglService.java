@@ -1,7 +1,6 @@
 package gov.czgs.fm.service;
 
 import gov.czgs.fm.dao.RecglDao;
-
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -10,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gdky.restfull.dao.MessageDao;
 import com.gdky.restfull.entity.User;
 import com.gdky.restfull.utils.Common;
 import com.gdky.restfull.utils.Condition;

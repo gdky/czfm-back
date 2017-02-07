@@ -1,14 +1,15 @@
 package gov.czgs.fm.controller;
 
+import gov.czgs.fm.com.baidu.speech.serviceapi.HttpUtil;
 import gov.czgs.fm.service.WzglService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,11 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gdky.restfull.configuration.Config;
 import com.gdky.restfull.entity.ResponseMessage;
 import com.gdky.restfull.entity.User;
-import com.gdky.restfull.service.AccountService;
 
 @RestController
 @RequestMapping(value = Config.URL_PROJECT)
 public class WzglController {
+    
 	@Resource
 	private WzglService wzglService;
 	
@@ -52,9 +53,9 @@ public class WzglController {
 
 	@RequestMapping(value = "/wzglmenu/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<List<Map<String, Object>>> removeMenu(
-			@PathVariable("id") String id,@RequestParam(value = "lx", required = true) String lx) {
+			@PathVariable("id") String id) {
 		wzglService.removeMenu(id);
-		List<Map<String, Object>> ls = wzglService.getAsideMenu(lx);
+		List<Map<String, Object>> ls = wzglService.getAsideMenu("all");
 		return new ResponseEntity<>(ls, HttpStatus.OK);
 	}
 	
@@ -90,4 +91,27 @@ public class WzglController {
 		return new ResponseEntity<>( HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/releasewz", method = RequestMethod.PUT)
+	public ResponseEntity<List<Map<String, Object>>> releaseWz(@RequestBody List<String> para) {
+		wzglService.releaseWz(para);
+		return new ResponseEntity<>( HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/cancelwz", method = RequestMethod.PUT)
+	public ResponseEntity<List<Map<String, Object>>> cancelWz(@RequestBody List<String> para) {
+		wzglService.cancelWz(para);
+		return new ResponseEntity<>( HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getaudio", method = RequestMethod.GET)
+	public ResponseEntity<List<Map<String, Object>>> getAudio() {
+		List<Map<String, Object>> ls = wzglService.getAudio();
+		return new ResponseEntity<>(ls, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public ResponseEntity<?> test() {
+		byte[] test = HttpUtil.http("");
+		return new ResponseEntity<>(test, HttpStatus.OK);
+	}
 }
