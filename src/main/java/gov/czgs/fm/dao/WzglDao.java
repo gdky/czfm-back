@@ -92,7 +92,7 @@ public class WzglDao extends BaseJdbcDao {
 
 	public Map<String, Object> getWz(String id) {
 		// TODO Auto-generated method stub
-		String sql = "select * from fm_wz_nr where id = ? ";
+		String sql = "select a.*,r.url,r.bt from fm_wz_nr a  left join fm_recgl r on r.ID=a.recgl_id where a.id = ? ";
 		List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(sql,
 				new Object[] { id });
 		if (ls.size() > 0) {
@@ -109,8 +109,9 @@ public class WzglDao extends BaseJdbcDao {
 		String title = (String) para.get("title");
 		String content = (String) para.get("content");
 		int audioid = (Integer) para.get("audioid");
-		String sql = "update fm_wz_nr set content = ? ,title = ?,senderid = ?,recgl_id = ? where id = ?";
-		Object[] arg = new Object[] { content, title, user.getId(), audioid,id };
+		String attachment = (String)para.get("uploadUrl");
+		String sql = "update fm_wz_nr set content = ? ,title = ?,senderid = ?,recgl_id = ?,attachment=? where id = ?";
+		Object[] arg = new Object[] { content, title, user.getId(), audioid,attachment,id };
 
 		this.jdbcTemplate.update(sql, arg);
 		return null;
