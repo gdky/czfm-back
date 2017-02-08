@@ -69,7 +69,6 @@ public class HttpUtil {
 		}
 
 		// 读取返回内容
-		StringBuffer buffer = new StringBuffer();
 		try {
 			//一定要有返回值，否则无法把请求发送给server端。
 			InputStream is = con.getInputStream();
@@ -82,18 +81,7 @@ public class HttpUtil {
 		            swapStream.write(buff, 0, rc);  
 		        }  
 		        in2b = swapStream.toByteArray();  
-		       
-			
-			
-			
-			
-			InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-		
-			BufferedReader br = new BufferedReader(isr);
-			String temp;
-			while ((temp = br.readLine()) != null) {
-				buffer.append(temp);
-			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
