@@ -1,5 +1,6 @@
 package gov.czgs.fm.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,15 +79,35 @@ public class WzglDao extends BaseJdbcDao {
 	public Map<String, Object> newWz(Map<String, Object> para) {
 		// TODO Auto-generated method stub
 		User user = accountService.getUserFromHeaderToken(request);
+		List<Object> arg = new ArrayList<Object>();
 		int lmid = (Integer) para.get("lmid");
 		String title = (String) para.get("title");
 		String content = (String) para.get("content");
-		int audioid = (Integer) para.get("audioid");
-		String attachment = (String)para.get("uploadUrl");
-		String sql = " insert into fm_wz_nr(lmid,content,title,senderid,recgl_id,create_time,state,attachment) values(?,?,?,?,?,now(),'0',?) ";
-		Object[] arg = new Object[] { lmid, content, title, user.getId(),audioid,attachment };
-
-		this.jdbcTemplate.update(sql, arg);
+		StringBuffer sql1 = new StringBuffer(" insert into fm_wz_nr(lmid,content,title,senderid,create_time,state  ");
+		StringBuffer sql2 = new StringBuffer(" values(?,?,?,?,now(),'0' ");
+		arg.add(lmid);
+		arg.add(content);
+		arg.add(title);
+		arg.add(user.getId());
+		
+		if(para.get("audioid")!=null){
+			arg.add((Integer) para.get("audioid"));
+			sql1.append(",recgl_id ");
+			sql2.append(",? ");
+		}else{
+			
+		}
+		if(para.get("uploadUrl")!=null){
+			arg.add((String)para.get("uploadUrl"));
+			sql1.append(",attachment ");
+			sql2.append(",? ");
+		}else{
+			
+		}
+		sql1.append(" ) "); 
+		sql2.append(" ) ");
+		sql1.append(sql2);
+		this.jdbcTemplate.update(sql1.toString(), arg.toArray());
 		return null;
 	}
 
@@ -108,12 +129,27 @@ public class WzglDao extends BaseJdbcDao {
 		int lmid = (Integer) para.get("lmid");
 		String title = (String) para.get("title");
 		String content = (String) para.get("content");
-		int audioid = (Integer) para.get("audioid");
-		String attachment = (String)para.get("uploadUrl");
-		String sql = "update fm_wz_nr set content = ? ,title = ?,senderid = ?,recgl_id = ?,attachment=? where id = ?";
-		Object[] arg = new Object[] { content, title, user.getId(), audioid,attachment,id };
+		StringBuffer sql = new StringBuffer("update fm_wz_nr set content = ? ,title = ?,senderid = ? ");
 
-		this.jdbcTemplate.update(sql, arg);
+		List<Object> arg = new ArrayList<Object>();
+		arg.add(content);
+		arg.add(title);
+		arg.add(user.getId());
+		if(para.get("audioid")!=null){
+			arg.add((Integer) para.get("audioid"));
+			sql.append(",recgl_id = ? ");
+		}else{
+			
+		}
+		if(para.get("uploadUrl")!=null){
+			arg.add((String)para.get("uploadUrl"));
+			sql.append(",attachment=? ");
+		}else{
+			
+		}
+		sql.append(" where id = ? ");
+		arg.add(id);
+		this.jdbcTemplate.update(sql.toString(), arg.toArray());
 		return null;
 	}
 
