@@ -109,9 +109,5 @@ public class WzglController {
 		return new ResponseEntity<>(ls, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public ResponseEntity<?> test() {
-		byte[] test = HttpUtil.http("");
-		return new ResponseEntity<>(test, HttpStatus.OK);
-	}
+	
 }
