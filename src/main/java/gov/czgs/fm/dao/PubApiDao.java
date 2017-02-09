@@ -38,7 +38,7 @@ public class PubApiDao extends BaseJdbcDao  {
 
 	public boolean isExpired() {
 		// TODO Auto-generated method stub
-    	String sql = " select date<=date_add(sysdate(), INTERVAL -30 day) bj from fm_record where name = 'accesstoken'  ";
+    	String sql = " select date<=date_add(sysdate(), INTERVAL -29 day) bj from fm_record where name = 'accesstoken'  ";
     	int i = this.jdbcTemplate.queryForObject(sql, Integer.class);
     	if(i==0){
     		return false;
