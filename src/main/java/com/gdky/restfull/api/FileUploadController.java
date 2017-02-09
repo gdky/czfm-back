@@ -39,7 +39,7 @@ public class FileUploadController {
 		if (!file.isEmpty()) {
 			String name = file.getOriginalFilename();
 			String ext = FilenameUtils.getExtension(name);
-			String uploadDir = "/files/";
+			String uploadDir = Constants.AUDIO_LOCATION;
 			File path = new File(Constants.UPLOAD_LOCATION + uploadDir);
 			if (!path.exists()) {
 				path.mkdir();

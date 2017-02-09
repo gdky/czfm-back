@@ -17,9 +17,9 @@ public class HttpUtil {
 	private static final String tokenUrl ="https://openapi.baidu.com/oauth/2.0/token";
     private static final String testFileName = "test.pcm";
     //put your own params here
-    private static final String apiKey = "pnNBpkOpAW5TWqO7E1RL3LfW";
-    private static final String secretKey = "cd491a30388a60e1b34aba83d3bf6e3a";
-    private static final String cuid = "test";
+    private static final String apiKey = "pnNBpkOpAW5TWqO7E1RL3LfW"; //换应用时更换
+    private static final String secretKey = "cd491a30388a60e1b34aba83d3bf6e3a"; //换应用时更换
+    private static final String cuid = "test"; //随便写
 
     
     
