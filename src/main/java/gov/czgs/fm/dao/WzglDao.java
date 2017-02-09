@@ -60,7 +60,7 @@ public class WzglDao extends BaseJdbcDao {
 		String lmid = (String) para.get("lmid");
 		String page = (String) para.get("page");
 		String pagesize = (String) para.get("pagesize");
-		String sql = "select a.*,DATE_FORMAT(a.create_time,'%Y-%d-%m %T')  createtime ,b.names sender from fm_wz_nr a ,fw_users b where a.senderid =b.id and a.lmid = ? order by create_time  limit ?,? ";
+		String sql = "select a.*,DATE_FORMAT(a.create_time,'%Y-%d-%m %T')  createtime ,b.names sender from fm_wz_nr a ,fw_users b where a.senderid =b.id and a.lmid = ? order by create_time desc  limit ?,? ";
 		List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(
 				sql, new Object[] { lmid,((Integer.parseInt(page)-1)*Integer.parseInt(pagesize)),Integer.parseInt(pagesize) });
 		sql = "select count(*) rs from fm_wz_nr a ,fw_users b where a.senderid =b.id and a.lmid = ? ";
