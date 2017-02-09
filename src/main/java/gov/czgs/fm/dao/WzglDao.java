@@ -57,7 +57,6 @@ public class WzglDao extends BaseJdbcDao {
 	}
 
 	public Map<String, Object> getWzinfo(Map<String, Object> para) {
-		// TODO Auto-generated method stub
 		String lmid = (String) para.get("lmid");
 		String page = (String) para.get("page");
 		String pagesize = (String) para.get("pagesize");

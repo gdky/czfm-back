@@ -101,6 +101,7 @@ public class HttpUtil {
         params.put("tok", token);
         params.put("cuid", cuid);
         params.put("ctp", "1");
+        params.put("pit","3");
 		URL u = null;
 		HttpURLConnection con = null;
 		// 构建请求参数

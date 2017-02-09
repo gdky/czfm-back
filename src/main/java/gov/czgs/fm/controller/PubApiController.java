@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gdky.restfull.configuration.Config;
@@ -34,14 +35,16 @@ import com.gdky.restfull.configuration.Config;
 @RequestMapping(value = Config.URL_PUBLIC)
 public class PubApiController {
 
-	 @Autowired
-	  private HttpServletRequest httpRequest;
-	 @Autowired
-	  private HttpServletResponse response;
+	@Autowired
+	private HttpServletRequest httpRequest;
+	@Autowired
+	private HttpServletResponse response;
 	@Resource
 	private PubApiService pubApiService;
+
 	/**
 	 * 获取栏目信息
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/wzglmenu", method = RequestMethod.GET)
@@ -52,6 +55,7 @@ public class PubApiController {
 
 	/**
 	 * 根据id获取文章信息
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -60,8 +64,10 @@ public class PubApiController {
 		Map<String, Object> obj = pubApiService.getWz(id);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
+
 	/**
 	 * 根据栏目ID获取对应的文章信息
+	 * 
 	 * @param lmid
 	 * @return
 	 */
@@ -70,37 +76,42 @@ public class PubApiController {
 		List<Map<String, Object>> obj = pubApiService.getWzByLm(lmid);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/tts", method = RequestMethod.POST)
-	public ResponseEntity<?> getTTS(@RequestBody Map<String,String> body) throws IOException {
+	public ResponseEntity<?> getTTS(/*@RequestParam(value = "text") String text*/
+	@RequestBody Map<String,String> body) throws IOException {
 		String token = "";
 		if(isExpired()){
 			token = getToken();
 		}else{
 			token = getNewToken();
 		}
-		String text = body.get("text");
+	
+		 String text = body.get("text");
 
 		List<String> fdwz = getFdWz(text);
 
-		Vector<InputStream> v = new Vector<>();  
-		for(String dw :fdwz){
+		Vector<InputStream> v = new Vector<>();
+		for (String dw : fdwz) {
 			byte[] baos = HttpUtil.http(dw,token);
+
 			ByteArrayInputStream bis = new ByteArrayInputStream(baos);
 			v.addElement(bis);
 		}
 
-		Enumeration<InputStream> e = v.elements();  
-		SequenceInputStream se = new SequenceInputStream(e);  
-         response.setContentType("audio/mpeg3");
-			response.setHeader("pragma", "no-cache");
-			response.setHeader("Cache-Control", "no-cache, must-revalidate");
-			response.setHeader("expires", "0");
-			response.addHeader("Content-Disposition", "attachment;filename='t2a.mp3'");
-			IOUtils.copyLarge(se, response.getOutputStream());
-			response.flushBuffer();
+		Enumeration<InputStream> e = v.elements();
+		SequenceInputStream se = new SequenceInputStream(e);
+		response.setContentType("audio/mpeg3");
+		response.setHeader("pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache, must-revalidate");
+		response.setHeader("expires", "0");
+		response.addHeader("Content-Disposition",
+				"attachment;filename='t2a.mp3'");
+		IOUtils.copyLarge(se, response.getOutputStream());
+		response.flushBuffer();
 		return new ResponseEntity<>("t2a.mp3", HttpStatus.OK);
 	}
+
 	private boolean isExpired(){
     	return pubApiService.isExpired();
     }
@@ -120,28 +131,28 @@ public class PubApiController {
 		List<String> zw = new ArrayList<String>();
 		int count = 0;
 		String ls = "";
-		for(int i = 0; i < list.length; i++)
-		{
-			//如果这一段超过1024字节 少于2048 字节  强行截半
-			if(list[i].length()*4>1024){
-				zw.add(ls+"。");
-				String test =list[i];
-				zw.add(test.substring(0, list[i].length()/2)+"。");
-				zw.add(test.substring(list[i].length()/2,list[i].length())+"。");
+		for (int i = 0; i < list.length; i++) {
+			// 如果这一段超过1024字节 少于2048 字节 强行截半
+			if (list[i].length() * 4 > 1024) {
+				zw.add(ls + "。");
+				String test = list[i];
+				zw.add(test.substring(0, list[i].length() / 2) + "。");
+				zw.add(test.substring(list[i].length() / 2, list[i].length())
+						+ "。");
 				count = 0;
-				ls ="";
-			}else{
-				count += list[i].length()*4;
-				int len = ls.length()*4;
-				if(count>1024){
-					zw.add(ls+"。");
-					count = list[i].length()*4;
-					ls="";
+				ls = "";
+			} else {
+				count += list[i].length() * 4;
+				int len = ls.length() * 4;
+				if (count > 1024) {
+					zw.add(ls + "。");
+					count = list[i].length() * 4;
+					ls = "";
 				}
 				ls += list[i];
 			}
-			if(i==list.length-1){
-				zw.add(ls+"。");
+			if (i == list.length - 1) {
+				zw.add(ls + "。");
 			}
 		}
 		return zw;
