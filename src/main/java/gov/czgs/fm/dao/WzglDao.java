@@ -160,7 +160,7 @@ public class WzglDao extends BaseJdbcDao {
 
 	public List<Map<String, Object>> getAudio() {
 		// TODO Auto-generated method stub
-		String sql = "select * from fm_recgl ";
+		String sql = "select * from fm_recgl order by lrrq desc ";
 		return this.jdbcTemplate.queryForList(sql.toString());
 	}
 	//当前状态 0：未发布 1：已发布 2：已作废
