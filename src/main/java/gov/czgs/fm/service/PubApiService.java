@@ -46,4 +46,19 @@ public class PubApiService {
 		return pubApiDao.getWzByLm(lmid);
 	}
 
+	public boolean isExpired() {
+		// TODO Auto-generated method stub
+		return pubApiDao.isExpired();
+	}
+
+	public void updateToken(String token) {
+		// TODO Auto-generated method stub
+		pubApiDao.updateToken(token);
+	}
+
+	public String getToken() {
+		// TODO Auto-generated method stub
+		return pubApiDao.getToken();
+	}
+
 }

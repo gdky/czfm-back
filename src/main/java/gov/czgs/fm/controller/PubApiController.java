@@ -73,13 +73,19 @@ public class PubApiController {
 	
 	@RequestMapping(value = "/tts", method = RequestMethod.POST)
 	public ResponseEntity<?> getTTS(@RequestBody Map<String,String> body) throws IOException {
+		String token = "";
+		if(isExpired()){
+			token = getToken();
+		}else{
+			token = getNewToken();
+		}
 		String text = body.get("text");
 
 		List<String> fdwz = getFdWz(text);
 
 		Vector<InputStream> v = new Vector<>();  
 		for(String dw :fdwz){
-			byte[] baos = HttpUtil.http(dw);
+			byte[] baos = HttpUtil.http(dw,token);
 			ByteArrayInputStream bis = new ByteArrayInputStream(baos);
 			v.addElement(bis);
 		}
@@ -94,6 +100,19 @@ public class PubApiController {
 			IOUtils.copyLarge(se, response.getOutputStream());
 			response.flushBuffer();
 		return new ResponseEntity<>("t2a.mp3", HttpStatus.OK);
+	}
+	private boolean isExpired(){
+    	return pubApiService.isExpired();
+    }
+	
+	private String getNewToken(){
+		String token = HttpUtil.getToken();
+		pubApiService.updateToken(token);
+    	return token;
+	}
+	
+	private String getToken(){
+    	return pubApiService.getToken();
 	}
 	
 	private List<String> getFdWz(String fdwz){
