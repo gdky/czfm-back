@@ -82,9 +82,9 @@ public class PubApiController {
 	@RequestBody Map<String,String> body) throws IOException {
 		String token = "";
 		if(isExpired()){
-			token = getToken();
-		}else{
 			token = getNewToken();
+		}else{
+			token = getToken();
 		}
 	
 		 String text = body.get("text");
