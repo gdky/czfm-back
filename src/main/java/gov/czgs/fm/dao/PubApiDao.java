@@ -20,7 +20,7 @@ public class PubApiDao extends BaseJdbcDao  {
 
 	public Map<String, Object> getWz(String id) {
 		// TODO Auto-generated method stub
-		String sql = "select a.*, DATE_FORMAT(a.create_time,'%Y-%d-%m')  date , DATE_FORMAT(a.create_time,'%T')  time ,b.names sender,r.bt,r.url  from fm_wz_nr a  left join fm_recgl r on r.ID=a.recgl_id ,fw_users b where a.senderid =b.id and a.id = ? and a.state = '1' ";
+		String sql = "select a.*, DATE_FORMAT(a.create_time,'%Y-%m-%d')  date , DATE_FORMAT(a.create_time,'%T')  time ,b.names sender,r.bt,r.url  from fm_wz_nr a  left join fm_recgl r on r.ID=a.recgl_id ,fw_users b where a.senderid =b.id and a.id = ? and a.state = '1' ";
 		List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(sql,new Object[]{id});
 		if(ls.size()>0){
 			return ls.get(0);
@@ -31,7 +31,7 @@ public class PubApiDao extends BaseJdbcDao  {
 
 	public List<Map<String, Object>> getWzByLm(String lmid) {
 		// TODO Auto-generated method stub
-		String sql = "select a.*, DATE_FORMAT(a.create_time,'%Y-%d-%m')  date , DATE_FORMAT(a.create_time,'%T')  time,b.names sender,r.bt,r.url  from fm_wz_nr a  left join fm_recgl r on r.ID=a.recgl_id,fw_users b where a.senderid =b.id and a.lmid = ?  and a.state = '1' ";
+		String sql = "select a.*, DATE_FORMAT(a.create_time,'%Y-%m-%d')  date , DATE_FORMAT(a.create_time,'%T')  time,b.names sender,r.bt,r.url  from fm_wz_nr a  left join fm_recgl r on r.ID=a.recgl_id,fw_users b where a.senderid =b.id and a.lmid = ?  and a.state = '1' ";
 		List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(sql,new Object[]{lmid});
 		return ls;
 	}
