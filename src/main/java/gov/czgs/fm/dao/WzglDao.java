@@ -112,7 +112,7 @@ public class WzglDao extends BaseJdbcDao {
 
 	public Map<String, Object> getWz(String id) {
 		// TODO Auto-generated method stub
-		String sql = "select a.*,r.url,r.bt from fm_wz_nr a  left join fm_recgl r on r.ID=a.recgl_id where a.id = ? ";
+		String sql = "select a.*,r.id rekey ,r.url,r.bt from fm_wz_nr a  left join fm_recgl r on r.ID=a.recgl_id where a.id = ? ";
 		List<Map<String, Object>> ls = this.jdbcTemplate.queryForList(sql,
 				new Object[] { id });
 		if (ls.size() > 0) {
