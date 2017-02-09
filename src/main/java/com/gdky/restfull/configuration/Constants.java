@@ -31,4 +31,6 @@ public final class Constants {
 //	public  static final String UPLOAD_LOCATION="/usr/local/upload"; //linux
 	
 	public static final String BARCODE_LOCATION = UPLOAD_LOCATION + "/barcode";
+	
+	public static final String AUDIO_LOCATION = "/czfmfiles/";
 }

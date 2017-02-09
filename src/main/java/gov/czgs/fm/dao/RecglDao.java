@@ -20,8 +20,9 @@ public class RecglDao extends BaseJdbcDao {
 	public Map<String, Object> getRecList(User user,Condition condition, int page,
 			int pagesize) {
 		StringBuffer sb = new StringBuffer();
-		sb.append(" select *,case YXBZ when 0 then '无效' when 1 then '有效' else null end as yx from fm_recgl ");
+		sb.append(" select *,case YXBZ when 0 then '无效' when 1 then '有效' else null end as yx from fm_recgl  ");
 		sb.append(condition.getSql());
+		sb.append(" order by LRRQ desc ");
 		sb.append(" LIMIT ?, ?");
 
 		// 装嵌传值数组
