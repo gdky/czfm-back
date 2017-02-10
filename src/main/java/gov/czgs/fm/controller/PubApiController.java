@@ -96,11 +96,11 @@ public class PubApiController {
 		Vector<InputStream> v = new Vector<>();
 		for (String dw : fdwz) {
 			t1=System.currentTimeMillis();
-			System.out.println("begin-------");
-			 Thread.sleep(500);
+			//System.out.println("begin-------");
+			 Thread.sleep(1000);
 			byte[] baos = HttpUtil.http(dw,token);
-			t2=System.currentTimeMillis();
-			System.out.println("Run Time:" + (t2 -t1) + "(ms)");  
+			//t2=System.currentTimeMillis();
+			//System.out.println("Run Time:" + (t2 -t1) + "(ms)");  
 			ByteArrayInputStream bis = new ByteArrayInputStream(baos);
 			v.addElement(bis);
 		}

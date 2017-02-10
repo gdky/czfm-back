@@ -110,7 +110,7 @@ public class HttpUtil {
 			
 			
 			InputStream is = getIs(wz,token);
-			System.out.println("read data :" +"  is==="+ is.available());
+			//System.out.println("read data :" +"  is==="+ is.available());
 
 			ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
 			byte[] buff = new byte[100];
@@ -155,8 +155,8 @@ public class HttpUtil {
 			}
 			sb.substring(0, sb.length() - 1);
 		}
-		System.out.println("send_url:" + url);
-		System.out.println("send_data:" + sb.toString());
+		//System.out.println("send_url:" + url);
+		//System.out.println("send_data:" + sb.toString());
 		try {
 			u = new URL(url);
 			con = (HttpURLConnection) u.openConnection();
