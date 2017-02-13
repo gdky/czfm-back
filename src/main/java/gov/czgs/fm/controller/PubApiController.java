@@ -79,22 +79,28 @@ public class PubApiController {
 
 	@RequestMapping(value = "/tts", method = RequestMethod.POST)
 	public ResponseEntity<?> getTTS(/*@RequestParam(value = "text") String text*/
-	@RequestBody Map<String,String> body) throws IOException {
+	@RequestBody Map<String,String> body) throws IOException, InterruptedException {
 		String token = "";
+		long t1,t2;
 		if(isExpired()){
 			token = getNewToken();
 		}else{
 			token = getToken();
 		}
-	
+		
+		
 		 String text = body.get("text");
 
 		List<String> fdwz = getFdWz(text);
 
 		Vector<InputStream> v = new Vector<>();
 		for (String dw : fdwz) {
+			t1=System.currentTimeMillis();
+			//System.out.println("begin-------");
+			 Thread.sleep(1000);
 			byte[] baos = HttpUtil.http(dw,token);
-
+			//t2=System.currentTimeMillis();
+			//System.out.println("Run Time:" + (t2 -t1) + "(ms)");  
 			ByteArrayInputStream bis = new ByteArrayInputStream(baos);
 			v.addElement(bis);
 		}
